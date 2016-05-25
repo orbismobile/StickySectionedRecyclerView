@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingTop="0dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/lblDate"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="start|center"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:background="@color/md_blue_500"
+        android:textColor="@color/md_white_1000" />
+
+</LinearLayout>
