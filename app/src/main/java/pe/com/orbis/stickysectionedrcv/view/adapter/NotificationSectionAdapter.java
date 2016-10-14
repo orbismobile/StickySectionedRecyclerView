@@ -23,7 +23,7 @@ import pe.com.orbis.stickysectionedrcv.model.NotificationSectionEntity;
  */
 public class NotificationSectionAdapter extends SectioningAdapter{
 
-    public class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements View.OnClickListener{
+    private class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements View.OnClickListener{
 
         LinearLayout lnlNotification;
         AppCompatTextView lblTitle;
@@ -31,7 +31,7 @@ public class NotificationSectionAdapter extends SectioningAdapter{
         AppCompatTextView lblHour;
         ImageView imgState;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             lnlNotification = (LinearLayout) itemView.findViewById(R.id.lnlNotification);
             lblTitle = (AppCompatTextView) itemView.findViewById(R.id.lblTitle);
@@ -51,11 +51,9 @@ public class NotificationSectionAdapter extends SectioningAdapter{
         }
     }
 
-    public class HeaderViewHolder extends SectioningAdapter.HeaderViewHolder implements View.OnClickListener{
-
+    private class HeaderViewHolder extends SectioningAdapter.HeaderViewHolder implements View.OnClickListener{
         AppCompatTextView lblDate;
-
-        public HeaderViewHolder(View itemView) {
+        HeaderViewHolder(View itemView) {
             super(itemView);
             lblDate = (AppCompatTextView) itemView.findViewById(R.id.lblDate);
             lblDate.setOnClickListener(this);
@@ -65,20 +63,14 @@ public class NotificationSectionAdapter extends SectioningAdapter{
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.lblDate:
-                        Toast.makeText(context, "Header: "+lblDate.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Header: "+lblDate.getText(), Toast.LENGTH_SHORT).show();
                     break;
             }
         }
     }
 
-    private class SectionEntity{
-        String title;
-        List<NotificationEntity> listNotification = new ArrayList<>();
-    }
-
     private Context context;
-    private List<SectionEntity> listSection = new ArrayList<>();
-
+    private List<NotificationSectionEntity> listSection = new ArrayList<>();
 
     public NotificationSectionAdapter(Context context){
         this.context = context;
@@ -86,16 +78,7 @@ public class NotificationSectionAdapter extends SectioningAdapter{
 
     public void setNotificationSection(List<NotificationSectionEntity> listNotificationSection){
         listSection.clear();
-
-        for (int i = 0; i < listNotificationSection.size(); i++) {
-            SectionEntity sectionEntity = new SectionEntity();
-            sectionEntity.title = listNotificationSection.get(i).getDate();
-            for (NotificationEntity notificationEntity : listNotificationSection.get(i).getNotificationEntity()) {
-                sectionEntity.listNotification.add(notificationEntity);
-            }
-
-            listSection.add(sectionEntity);
-        }
+        this.listSection = listNotificationSection;
         notifyAllSectionsDataSetChanged();
     }
 
@@ -126,19 +109,18 @@ public class NotificationSectionAdapter extends SectioningAdapter{
 
     @Override
     public void onBindHeaderViewHolder(SectioningAdapter.HeaderViewHolder viewHolder, int sectionIndex) {
-        SectionEntity sectionEntity = listSection.get(sectionIndex);
         HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
-        headerViewHolder.lblDate.setText(sectionEntity.title);
+        headerViewHolder.lblDate.setText(listSection.get(sectionIndex).getDate());
     }
 
     @Override
     public void onBindItemViewHolder(SectioningAdapter.ItemViewHolder viewHolder, int sectionIndex, int itemIndex) {
-        SectionEntity sectionEntity = listSection.get(sectionIndex);
+        NotificationEntity sectionEntity = listSection.get(sectionIndex).getNotificationEntity().get(itemIndex);
         ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
-        itemViewHolder.lblTitle.setText(sectionEntity.listNotification.get(itemIndex).getTitle());
-        itemViewHolder.lblDescription.setText(sectionEntity.listNotification.get(itemIndex).getDescription());
-        itemViewHolder.lblHour.setText(sectionEntity.listNotification.get(itemIndex).getHour());
-        if(sectionEntity.listNotification.get(itemIndex).getState().equals("1")){
+        itemViewHolder.lblTitle.setText(sectionEntity.getTitle());
+        itemViewHolder.lblDescription.setText(sectionEntity.getDescription());
+        itemViewHolder.lblHour.setText(sectionEntity.getHour());
+        if(sectionEntity.getState().equals("1")){
             itemViewHolder.imgState.setImageResource(R.drawable.ic_circle_green);
             itemViewHolder.lnlNotification.setBackgroundColor(ContextCompat.getColor(context, R.color.md_white_1000));
         }else{
@@ -155,6 +137,6 @@ public class NotificationSectionAdapter extends SectioningAdapter{
 
     @Override
     public int getNumberOfItemsInSection(int sectionIndex) {
-        return listSection.get(sectionIndex).listNotification.size();
+        return listSection.get(sectionIndex).getNotificationEntity().size();
     }
 }
