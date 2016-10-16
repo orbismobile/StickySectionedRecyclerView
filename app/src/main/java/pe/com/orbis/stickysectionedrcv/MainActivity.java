@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
         listNotificationSectionEntity = new ArrayList<>();
         adapter = new NotificationSectionAdapter(this);
 
+        List<NotificationEntity> listNotification1111 = new ArrayList<>();
+        listNotification1111.add(new NotificationEntity("1","Nueva coincidencia con tu búsqueda guardada",
+                "Revisa las últimas coincidencias de tu búsqueda","12:00 a.m","1","0"));
+        NotificationSectionEntity notificationSectionEntity111 = new NotificationSectionEntity("MUAJAJAJA",listNotification1111);
+        listNotificationSectionEntity.add(notificationSectionEntity111);
+
 
         List<NotificationEntity> listNotification = new ArrayList<>();
         listNotification.add(new NotificationEntity("1","Nueva coincidencia con tu búsqueda guardada",

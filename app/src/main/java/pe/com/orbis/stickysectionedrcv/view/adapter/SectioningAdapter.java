@@ -85,6 +85,23 @@ public class SectioningAdapter extends RecyclerView.Adapter<SectioningAdapter.Vi
 
 	}
 
+	public static class UserViewHolder extends ViewHolder {
+		private int positionInSection;
+
+		public UserViewHolder(View itemView) {
+			super(itemView);
+		}
+
+		public int getPositionInSection() {
+			return positionInSection;
+		}
+
+		private void setPositionInSection(int positionInSection) {
+			this.positionInSection = positionInSection;
+		}
+	}
+
+
 	public static class ItemViewHolder extends ViewHolder {
 		private int positionInSection;
 
@@ -177,6 +194,11 @@ public class SectioningAdapter extends RecyclerView.Adapter<SectioningAdapter.Vi
 	public ItemViewHolder onCreateItemViewHolder(ViewGroup parent) {
 		return null;
 	}
+
+    public UserViewHolder onCreateUserViewHolder(ViewGroup parent) {
+        return null;
+    }
+
 
 	/**
 	 * Called when a ViewHolder is needed for a section header view
@@ -592,13 +614,21 @@ public class SectioningAdapter extends RecyclerView.Adapter<SectioningAdapter.Vi
 			}
 		} else {
 			// this sections has no header or footer
-			return TYPE_ITEM;
+
+            if(adapterPosition==0){
+                return 5;
+            }else{
+                return TYPE_ITEM;
+            }
+
 		}
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		switch (viewType) {
+            case 5:
+                return onCreateUserViewHolder(parent);
 			case TYPE_ITEM:
 				return onCreateItemViewHolder(parent);
 			case TYPE_HEADER:
@@ -624,6 +654,11 @@ public class SectioningAdapter extends RecyclerView.Adapter<SectioningAdapter.Vi
 		tagViewHolderItemView(holder, section, adapterPosition);
 
 		switch (holder.getItemViewType()) {
+
+            case 5:
+
+                break;
+
 			case TYPE_HEADER:
 				onBindHeaderViewHolder((HeaderViewHolder) holder, section);
 				break;

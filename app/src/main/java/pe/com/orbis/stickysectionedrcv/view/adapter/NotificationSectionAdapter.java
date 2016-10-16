@@ -23,6 +23,27 @@ import pe.com.orbis.stickysectionedrcv.model.NotificationSectionEntity;
  */
 public class NotificationSectionAdapter extends SectioningAdapter{
 
+
+
+    private class UserViewHolder extends SectioningAdapter.UserViewHolder implements View.OnClickListener{
+
+        UserViewHolder(View itemView) {
+            super(itemView);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.lnlNotification:
+
+                    break;
+            }
+        }
+    }
+
+
+
     private class ItemViewHolder extends SectioningAdapter.ItemViewHolder implements View.OnClickListener{
 
         LinearLayout lnlNotification;
@@ -85,7 +106,7 @@ public class NotificationSectionAdapter extends SectioningAdapter{
 
     @Override
     public boolean doesSectionHaveHeader(int sectionIndex) {
-        return true;
+        return sectionIndex != 0;
     }
 
     @Override
@@ -98,6 +119,14 @@ public class NotificationSectionAdapter extends SectioningAdapter{
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.item_notification_header, parent, false);
         return new HeaderViewHolder(v);
+    }
+
+
+    @Override
+    public UserViewHolder onCreateUserViewHolder(ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.item_user, parent, false);
+        return new UserViewHolder(v);
     }
 
     @Override
